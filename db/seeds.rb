@@ -27,3 +27,4 @@
 # entries_body.each do |entry| 
 #     EntryItem.create(name: entry["name"], category: entry["category"], image_url: entry["image"]) : nil 
 # end
+

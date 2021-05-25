@@ -11,14 +11,10 @@ class EntryItemsController < ApplicationController
     def index
         entry_items_unedited = fetch()
         entry_items = entry_items_unedited.map do |entry|
-            reformat_entry = {category: entry["category"], image_url: entry["image"], name: entry["name"]}
+            reformat_entry = {category: entry["category"], image_url: entry["image"], name: entry["name"], original_id: entry["id"]}
         end
         puts entry_items
         render json: entry_items
-    end
-
-    def show
-        
     end
 
     def create
@@ -28,7 +24,7 @@ class EntryItemsController < ApplicationController
         else
             entry_item = EntryItem.find_by(name: entry_item_params["name"])
         end
-        render json: entry_item
+        render json: entry_item, include: [:user_notes]
     end
 
     # def create
@@ -55,7 +51,7 @@ class EntryItemsController < ApplicationController
     # end
     private
     def entry_item_params
-        params.require(:entry_item).permit(:category, :image_url, :name)
+        params.require(:entry_item).permit(:category, :image_url, :name, :original_id)
     end
 
     def fetch
