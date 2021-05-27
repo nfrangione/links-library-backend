@@ -13,7 +13,6 @@ class EntryItemsController < ApplicationController
         entry_items = entry_items_unedited.map do |entry|
             reformat_entry = {category: entry["category"], image_url: entry["image"], name: entry["name"], original_id: entry["id"]}
         end
-        puts entry_items
         render json: entry_items
     end
 
@@ -55,9 +54,15 @@ class EntryItemsController < ApplicationController
     end
 
     def fetch
-        response = RestClient.get "https://botw-compendium.herokuapp.com/api/v2/category/equipment"
-        json = JSON.parse(response)
-        return json["data"]
+        response1 = RestClient.get "https://botw-compendium.herokuapp.com/api/v2/category/equipment"
+        json1 = JSON.parse(response1)
+
+        response2 = RestClient.get "https://botw-compendium.herokuapp.com/api/v2/category/monsters"
+        json2 = JSON.parse(response2)
+
+        json3 = json1["data"] + json2["data"]
+
+        return json3
         # json["data"].each do |entry|
         #     if (EntryItem.find_by(name: entry["name"]) === false)
         #         EntryItem.create(name: entry["name"], category: entry["category"], image_url: entry["image"])

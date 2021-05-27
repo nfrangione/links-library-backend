@@ -10,6 +10,11 @@ class Api::V1::UsersController < ApplicationController
         render json: { user: UserSerializer.new(current_user) }, status: :accepted
     end
 
+    def show
+        user = User.find_by(id: params[:id])
+        render json: { user: UserSerializer.new(user) }, status: :accepted
+    end
+
     def create
         user = User.create(user_params)
         if user.valid?
