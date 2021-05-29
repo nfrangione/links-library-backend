@@ -6,12 +6,17 @@ class UserNotesController < ApplicationController
 
     def show
         user_note = UserNote.find_by(id: params[:id])
-        render json: user_note, except: [:created_at, :updated_at]
+        render json: user_note
     end
 
     def create
-        user_note = UserNote.create(user_note_params)
-        render json: user_note
+        user_note = UserNote.new(user_note_params)
+        if user_note.valid?
+            user_note.save
+            render json: user_note
+        else
+            render json: {message: "You've already made a note on this item!"}, status: :not_acceptable
+        end
     end
 
     def update
