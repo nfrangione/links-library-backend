@@ -12,6 +12,7 @@ class UserNotesController < ApplicationController
     def create
         user_note = UserNote.new(user_note_params)
         if user_note.valid?
+            # user_note.username = User.find_by(id: user_note_params[:user_id]).username
             user_note.save
             render json: user_note
         else
@@ -33,6 +34,6 @@ class UserNotesController < ApplicationController
     private
     
     def user_note_params
-        params.require(:user_note).permit(:id, :note, :user_id, :entry_item_id)
+        params.require(:user_note).permit(:id, :note, :user_id, :entry_item_id, :username, :entry_name)
     end
 end
