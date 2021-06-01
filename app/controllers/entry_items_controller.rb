@@ -60,9 +60,12 @@ class EntryItemsController < ApplicationController
         response2 = RestClient.get "https://botw-compendium.herokuapp.com/api/v2/category/monsters"
         json2 = JSON.parse(response2)
 
-        json3 = json1["data"] + json2["data"]
+        response3 = RestClient.get "https://botw-compendium.herokuapp.com/api/v2/category/materials"
+        json3 = JSON.parse(response3)
 
-        return json3
+        json4 = json1["data"] + json2["data"] + json3["data"]
+
+        return json4
         # json["data"].each do |entry|
         #     if (EntryItem.find_by(name: entry["name"]) === false)
         #         EntryItem.create(name: entry["name"], category: entry["category"], image_url: entry["image"])
